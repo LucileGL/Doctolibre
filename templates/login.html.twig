@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="/css/style.css">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctolibre</title>
+</head>
+<body>
+
+    <div class="head">   
+        <u><b><h1>Page de connexion</h1></b></u>
+        <u><h2>Site Doctolibre</h2></u>
+        {# templates/login.html.twig #}
+        <i><h3>It's {{ hour }}</h3></i>
+    </div>    
+
+    <div class="main">
+
+        <u><h2>Je me connecte</h2></u>
+        <form method="post">
+            <p>Identifiant ou adresse-mail</p>
+            <input type="text" name="login" placeholder="johndoe@gmail.com">
+            <p>Mot de passe</p>
+            <input type="password" name="password" placeholder="12345">
+            <button type="submit">Envoyer</button>
+        </form> 
+    </div>
+
+</body>
+</html>
