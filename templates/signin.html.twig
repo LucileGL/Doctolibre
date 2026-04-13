@@ -11,6 +11,7 @@
     <div class="head">   
         <u><b><h1>Page d'inscription</h1></b></u>
         <u><h2>Site Doctolibre</h2></u>
+        <a href="/login"><button type="button">Connexion</button></a>
         {# templates/signin.html.twig #}
         <i><h3>It's {{ hour }}</h3></i>
     </div>    
@@ -19,18 +20,73 @@
 
         <u><h2>Je m'inscris <h2></u>
         <form method="post">
-            <p>Nom</p>
-            <input type="text" name="name" placeholder="Doe">
-            <p>Prenom</p>
-            <input type="text" name="first_name" placeholder="John">
-            <p>Login / Pseudo</p>
-            <input type="text" name="login" placeholder="jd2026">
-            <p>Mail</p>
-            <input type="email" name="email" placeholder="johndoe@gmail.com">
-            <p>Téléphone</p>
-            <input type="tel" name="telephone" placeholder="01 02 03 04 05">
-            <p>Mot de passe</p>
-            <input type="password" name="password" placeholder="12345">
+
+            <div class="column">
+
+                <div class="item">
+
+                    <i><h5>Nom</h5></i>
+                    <input type="text" name="name" placeholder="Doe">
+                    {% if 'name' in errors %}
+                        <span class="error">Missing</span>
+                    {% endif %}
+
+                </div>
+
+                <div class="item">
+
+                    <i><h5>Prenom</h5></i>
+                    <input type="text" name="first_name" placeholder="John">
+                    {% if 'first_name' in errors %}
+                        <span class="error">Missing</span>
+                    {% endif %}
+
+                </div>
+
+                <div class="item">
+
+                    <i><h5>Login / Pseudo</h5></i>
+                    <input type="text" name="login" placeholder="jd2026">
+                    {% if 'login' in errors %}
+                        <span class="error">Missing</span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="column">
+                <div class="item">
+
+                    <i><h5>Mail</h5></i>
+                    <input type="email" name="email" placeholder="johndoe@gmail.com">
+                    {% if 'email' in errors %}
+                        <span class="error">Missing</span>
+                    {% endif %}
+
+                </div>
+
+                <div class="item">
+
+                    <i><h5>Téléphone</h5></i>
+                    <input type="tel" name="telephone" placeholder="01 02 03 04 05">
+                    {% if 'telephone' in errors %}
+                        <span class="error">Missing</span>
+                    {% endif %}
+
+                </div>
+
+                <div class="item">
+
+                    <i><h5>Mot de passe</h5></i>
+                    <input type="password" name="password" placeholder="12345">
+                    {% if 'password' in errors %}
+                        <span class="error">Missing</span>
+                    {% endif %}
+
+                </div>
+            </div>
+
             <button type="submit">Envoyer</button>
         </form> 
     </div>

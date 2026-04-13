@@ -22,11 +22,33 @@ body, html {
     align-items: center;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
+h5 {
+    margin: 4px;
 }
 
-p {
-    margin: 10px; 
+.error {
+    font-size: 15px; 
+    color: red;
+}
+
+button {
+    margin : 15px;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+button {
+    width: 100%;
+    margin: 15px 0;
 }
