@@ -16,5 +16,27 @@ class Login extends AbstractController
         return $this->render('login.html.twig', [
             'hour' => $hour,
         ]);
+
     }
+
+    #[Route('/rest/auth/login', methods: ['POST'])]
+    public function processLogin(Request $request, UserRepository $userRepository): Response 
+    {
+        dd("Salut");
+        $login = $request->request->get('login');
+        $password = $request->request->get('password');
+
+        $userLogin = $userRepository->findOneBy(['login' => $login]);
+
+    if ($userLogin == null) {
+        return $this->render('defaite.html.twig');
+    } elseif ($userLogin->getPassword() === $password) {
+        return $this->render('succes.html.twig', [
+            'login' => $login,
+        ]);
+    } else {
+        return $this->render('defaite.html.twig');
+    }
+}
+
 }

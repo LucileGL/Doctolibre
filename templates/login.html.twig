@@ -32,38 +32,36 @@ et aucun sessionid, empêchant la transition OTP.” #}
 
 
 {% block javascripts %}
-<script>
-document.addEventListener("DOMContentLoaded", function() {
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
 
-    const form = document.getElementById('step-one-form');
+        const form = document.getElementById('step-one-form');
 
-    form.addEventListener("submit", async function(e) {
-        e.preventDefault();
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
 
-        alert('Hello');
+            const authentifier = document.getElementById("login").value;
+            const password = document.getElementById("password").value;
+            const url = 'https://secure.intern.it.idshost.fr/auth/v2/otp/loginselect';
 
-        const authentifier = document.getElementById("login").value;
-        const password = document.getElementById("password").value;
-        const url = 'https://secure.intern.it.idshost.fr/auth/v2/otp/loginselect';
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    authentifier: authentifier,
+                    password: password,
+                    send: true
+                })
+            });
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                authentifier: authentifier,
-                password: password,
-                send: true
-            })
+            const data = await response.json();
+
+            console.log("STATUS HTTP :", response.status);
+            console.log("REPONSE COMPLETE :", data);
         });
 
-        const data = await response.json();
-
-        console.log("STATUS HTTP :", response.status);
-        console.log("REPONSE COMPLETE :", data);
     });
-
-});
-</script>
+    </script>
 {% endblock %}

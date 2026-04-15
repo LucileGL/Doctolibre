@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -10,7 +11,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class Signin extends AbstractController
 {
-
     #[Route('/signin', methods: ['GET'])]
     public function showSignin(): Response
     {
@@ -22,7 +22,7 @@ class Signin extends AbstractController
     }
 
     #[Route('/signin', methods: ['POST'])]
-    public function processSignin(Request $request, EntityManagerInterface $em): Response 
+    public function processSignin(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $hasher): Response 
     {
         $errors = [];
         $fields = ['name', 'first_name', 'login', 'email', 'telephone', 'password'];
@@ -43,7 +43,9 @@ class Signin extends AbstractController
 
         $user = new User();
         $user->setLogin($request->request->get('login'));
-        $user->setPassword($request->request->get('password'));
+        $plainPassword = $request->request->get('password');
+        $hashedPassword = $hasher->hashPassword($user, $plainPassword);
+        $user->setPassword($hashedPassword);
         $user->setName($request->request->get('name'));
         $user->setFirstName($request->request->get('first_name'));
         $user->setEmail($request->request->get('email'));
