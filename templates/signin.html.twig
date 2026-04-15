@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctolibre</title>
-    <link rel="stylesheet" href="/css/style.css">
-</head>
-<body>
+{% extends 'base.html.twig' %}
 
-    <div class="head">   
-        <u><b><h1>Page d'inscription</h1></b></u>
-        <u><h2>Site Doctolibre</h2></u>
-        <a href="/login"><button type="button">Connexion</button></a>
-        {# templates/signin.html.twig #}
-        <i><h3>It's {{ hour }}</h3></i>
-    </div>    
+
+{% block body %}
 
     <div class="main">
 
@@ -91,5 +78,4 @@
         </form> 
     </div>
 
-</body>
-</html>
+{% endblock %}

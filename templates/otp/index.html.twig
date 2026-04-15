@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="main">
+
+        <u><h2>Je m'identifie </h2></u>
+
+        <form id="step-two-form">
+
+                <div class="item">
+
+                    <h2>Saisissez l'OTP que vous avez reçu :</h2>
+
+                </div>
+
+                <div class="item">
+
+                    <input id="otp" type="text" name="otp" autofocus inputmode="numeric" pattern="[0-9]*">
+
+                </div>
+
+            <button type="submit">Envoyer</button>
+        </form> 
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log('urlParams', urlParams);
+        const sessionids = urlParams.get("sessionids");
+        console.log('sessions', sessionids);
+
+        const stepForm = document.getElementById('step-two-form');
+
+
+        document.getElementById("step-two-form").addEventListener("submit", function(e) {
+
+            e.preventDefault();            
+            axios.post("https://secure.intern.it.idshost.fr/auth/v2/otp/check", {
+
+            sessionids: sessionids,
+                otp: document.getElementById("otp").value,
+
+            }, {
+                withCredentials : true, 
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(function(response) {
+                if(response.data.status == 0) {
+                    if(confirm("You are connected")) {
+                        window.location.replace("https://secure.intern.it.idshost.fr/");
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
