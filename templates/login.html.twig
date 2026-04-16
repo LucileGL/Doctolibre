@@ -1,35 +1,26 @@
 {% extends 'base.html.twig' %}
 
-
 {% block body %}
     <div class="head">   
         <u><b><h1>Page de connexion</h1></b></u>
         <u><h2>Site Doctolibre</h2></u>
         <a href="/signin"><button type="button">Inscription</button></a>
-        {# templates/login.html.twig #}
         <i><h3>It's {{ hour }}</h3></i>
     </div>    
 
     <div class="main">
-
         <u><h2>Je me connecte</h2></u>
-        <form id="step-one-form">
+        <form id="step-one-form" method="post">
             <p>Insérer votre login</p>
-            <input type="text" id="login" name="login" placeholder="johndoe@gmail.com">
+            <input type="text" id="login" name="login" placeholder="johndoe2026">
 
             <p>Mot de passe</p>
             <input type="password" id="password" name="password" placeholder="12345">
 
             <button type="submit" id="loginselect">Envoyer</button>
-
         </form> 
     </div>
 {% endblock %}
-
-
-{# L’appel login fonctionne (HTTP 200), mais l’API renvoie status 10/15 avec denial_reason 'Auth server error' 
-et aucun sessionid, empêchant la transition OTP.” #}
-
 
 {% block javascripts %}
     <script>
@@ -44,22 +35,37 @@ et aucun sessionid, empêchant la transition OTP.” #}
             const password = document.getElementById("password").value;
             const url = 'https://secure.intern.it.idshost.fr/auth/v2/otp/loginselect';
 
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    authentifier: authentifier,
-                    password: password,
-                    send: true
-                })
-            });
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 3000)
 
-            const data = await response.json();
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        authentifier: authentifier,
+                        password: password,
+                        send: true
+                    })
+                    signal: controller.signal
+                });
 
-            console.log("STATUS HTTP :", response.status);
-            console.log("REPONSE COMPLETE :", data);
+                const data = await response.json();
+                console.log("STATUS HTTP :", response.status);
+                console.log("REPONSE COMPLETE :", data);
+
+            if(data.status === 0) {
+                window.location.replace("/otp?sessionids=" + data.sessionids);
+            } else {
+                console.log("API a rejeté la connexion, bascule sur la BDD");
+                form.submit();
+            }
+            } catch(error) {
+                console.log("API indisponible, bascule sur la BDD", error);
+                form.submit();
+            }
         });
 
     });
