@@ -1,13 +1,13 @@
 body, html {
     min-height: 95vh;
-    background-color: white;
     height: 48vh;
     display: flex;
     flex-direction: column;
+    color: #002F6C;
 }
 
 .head {
-    background-color: grey;
+    background-color: #E6F1FB;
     flex: 3;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@ body, html {
 
 .main {
     flex: 7;
-    background-color: grey;
+    background-color: #F8FBFF;
     display:flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +32,11 @@ h5 {
 }
 
 button {
-    margin : 15px;
+    width: 100px;
+    margin: 15px 0;
+    background-color: #185FA5;
+    color: #ffffff;
+    border-radius: 15px;
 }
 
 form {
@@ -48,7 +52,17 @@ form {
     flex: 1;
 }
 
-button {
-    width: 100%;
-    margin: 15px 0;
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* background-color: #042C53; */
+    background-color: #C5D8F0;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #C5D8F0;
 }
