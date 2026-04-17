@@ -35,30 +35,39 @@
         const sessionids = urlParams.get("sessionids");
         console.log('sessions', sessionids);
 
-        const stepForm = document.getElementById('step-two-form');
+        document.getElementById("step-two-form").addEventListener("submit", async function(e) {
+            e.preventDefault();
 
+            console.log("📤 Envoi OTP avec sessionids:", sessionids);
+            console.log("📤 OTP saisi:", document.getElementById("otp").value);
 
-        document.getElementById("step-two-form").addEventListener("submit", function(e) {
+            try {
+                const response = await fetch("https://secure.intern.it.idshost.fr/auth/v2/otp/check", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        sessionids: sessionids,
+                        otp: document.getElementById("otp").value,
+                    })
+                });
 
-            e.preventDefault();            
-            axios.post("https://secure.intern.it.idshost.fr/auth/v2/otp/check", {
+                const data = await response.json();
+                console.log("✅ Réponse reçue:", data);
+                console.log("✅ Status API:", data.status);
 
-            sessionids: sessionids,
-                otp: document.getElementById("otp").value,
+                if(data.status === 0)( 
+                        console.log("You're connected !")
+                        window.location.replace("http://www.intern.it.idshost.fr");
+                } else {
+                    console.warn("⚠️ Status non zéro:", data.status, data);
+                }                
 
-            }, {
-                withCredentials : true, 
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(function(response) {
-                if(response.data.status == 0) {
-                    if(confirm("You are connected")) {
-                        window.location.replace("https://secure.intern.it.idshost.fr/");
-                    }
-                }
-            });
-        });
+            } catch(error) {
+                console.error("❌ Erreur fetch:", error);
+            }
+        });        
     </script>
 {% endblock %}
